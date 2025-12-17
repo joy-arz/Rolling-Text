@@ -1,0 +1,108 @@
+@import url(https://fonts.bunny.net/css?family=jura:300,500);
+
+@layer base, gallery,flip-text;
+
+@layer gallery {
+	* {
+		box-sizing: border-box;
+	}
+  
+@layer flip-text {
+	.flip-text {
+		--clr-1: dodgerblue;
+		--clr-2: hotpink;
+		--clr-3: rgb(94 165 0);
+
+		--translate-distance: 1lh;
+		--duration: 3s;
+		--timing-function: cubic-bezier(0.66, 0, 0.34, 1);
+
+		overflow-y: hidden;
+		display: flex;
+		gap: 0;
+
+		/* flipped items */
+		& > * {
+			--i: sibling-index();
+			@supports not (order: sibling-index()) {
+				&:nth-child(1)  { --i: 1; }
+				&:nth-child(2)  { --i: 2; }
+				&:nth-child(3)  { --i: 3; }
+				&:nth-child(4)  { --i: 4; }
+				&:nth-child(5)  { --i: 5; }
+				&:nth-child(6)  { --i: 6; }
+				&:nth-child(7)  { --i: 7; }
+				&:nth-child(8)  { --i: 8; }
+				&:nth-child(9)  { --i: 9; }
+				&:nth-child(10) { --i: 10;}
+				&:nth-child(11) { --i: 11;}
+			}
+			--delay: calc(var(--i) * 100ms + var(--delay-factor, 0ms));
+			--translate: calc(var(--translate-distance) * 2);
+			display: grid;
+			place-content: center;
+			@media not (prefers-reduced-motion) {
+				animation-name: flip-transform, flip-translate;
+				animation-duration: var(--duration);
+				animation-timing-function: var(--timing-function);
+				animation-iteration-count: infinite;
+				animation-delay: var(--delay);
+			}
+		}
+	}
+
+	@keyframes flip-transform {
+		50%,
+		100% {
+			transform: translateY(calc(var(--translate) * -1));
+		}
+	}
+	@keyframes flip-translate {
+		24.999999% {
+			opacity: 1;
+			translate: 0 0;
+		}
+		25% {
+			opacity: 0;
+		}
+		25.000001%,
+		100% {
+			opacity: 1;
+			translate: 0 calc(var(--translate) * 1);
+		}
+	}
+}
+  
+  @layer base {
+	* {
+		box-sizing: border-box;
+	}
+	:root {
+		color-scheme: light dark;
+		--bg-dark: rgb(9, 9, 11);
+		--bg-light: rgb(248, 244, 238);
+		--txt-light: rgb(10, 10, 10);
+		--txt-dark: rgb(245, 245, 245);
+		--line-light: rgb(0 0 0 / 0.25);
+		--line-dark: rgb(255 255 255 / 0.25);
+
+		--clr-bg: light-dark(var(--bg-light), var(--bg-dark));
+		--clr-txt: light-dark(var(--txt-light), var(--txt-dark));
+		--clr-lines: light-dark(var(--line-light), var(--line-dark));
+	}
+
+  
+    	body {
+		background-color: var(--clr-bg);
+		color: var(--clr-txt);
+		min-height: 100svh;
+		margin: 0;
+		padding: 2rem;
+		font-family: "Jura", sans-serif;
+		font-size: 1rem;
+		line-height: 1.5;
+		display: grid;
+		place-items: center;
+		gap: 2rem;
+		& > * {
+		}
